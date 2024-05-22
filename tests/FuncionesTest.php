@@ -1,5 +1,5 @@
 <?php
-require_once('/home/runner/work/lampp/lampp/html/funciones.php');
+require_once('/home/runner/work/lampp/lampp/html/Funciones.php');
 use PHPUnit\Framework\TestCase;
 
 class FuncionesTest extends TestCase {

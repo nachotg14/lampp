@@ -16,7 +16,7 @@ $dni = $_POST['dni'];
 $pass_sha256 = hash('sha256', $pass);
 
 // Verificar la letra del DNI
-if (funciones::validarDNI($dni)) {
+if (Funciones::validarDNI($dni)) {
     echo "La letra del DNI es correcta.";
 } else {
     echo "La letra del DNI no es correcta.";
