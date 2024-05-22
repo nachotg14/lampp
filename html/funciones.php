@@ -1,6 +1,6 @@
 <?
 
-class Funciones{
+class funciones{
     public static function validarDNI($dni_str) {
         // Eliminar espacios en blanco y convertir a mayúsculas
         $dni_str = strtoupper(str_replace(' ', '', $dni_str));

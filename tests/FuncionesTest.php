@@ -7,7 +7,7 @@ class FuncionesTest extends TestCase {
      * @dataProvider dniProvider
      */
     public function testValidarDNI($dni, $expected) {
-        $this->assertEquals($expected, Funciones::validarDNI($dni));
+        $this->assertEquals($expected, funciones::validarDNI($dni));
     }
 
     public function dniProvider() {
