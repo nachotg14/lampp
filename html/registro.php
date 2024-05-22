@@ -1,4 +1,5 @@
 <?php
+include_once './funciones.php';
 // Datos de conexión a la base de datos
 $servername = "db";
 $username = "root";
@@ -15,7 +16,7 @@ $dni = $_POST['dni'];
 $pass_sha256 = hash('sha256', $pass);
 
 // Verificar la letra del DNI
-if (validarDNI($dni)) {
+if (Funciones::validarDNI($dni)) {
     echo "La letra del DNI es correcta.";
 } else {
     echo "La letra del DNI no es correcta.";
@@ -45,21 +46,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-function validarDNI($dni_str) {
-    // Eliminar espacios en blanco y convertir a mayúsculas
-    $dni_str = strtoupper(str_replace(' ', '', $dni_str));
 
-    // Extraer el número y la letra del DNI
-    $numero = substr($dni_str, 0, -1);
-    $letra_introducida = substr($dni_str, -1);
-
-    // Array con las letras posibles del DNI
-    $letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    $letra_correcta = $letras[$numero % 23];
-
-    // Verificar si la letra introducida es correcta
-    return $letra_correcta === $letra_introducida;
-}
 
 echo '<script>window.location.href = "./index.php";</script>';
 exit; // Asegura que el script se detenga después de la redirección
