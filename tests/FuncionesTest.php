@@ -1,4 +1,5 @@
 <?php
+require_once('../html/funciones.php');
 use PHPUnit\Framework\TestCase;
 
 class FuncionesTest extends TestCase {
