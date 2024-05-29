@@ -1,15 +1,15 @@
 <?php
         // Datos de conexión a la base de datos
-         $servername = "db";
-         $username = "root";
-         $password = "root_password";
-         $database = "lampdb";
-         $port="";
-       // $servername = "localhost";
-       // $username = "id22241549_nachotg14";
-       // $password = "Elmolino1414.";
-       // $database = "id22241549_lampdb";
-       // $port="3306";
+        // $servername = "db";
+        // $username = "root";
+        // $password = "root_password";
+        // $database = "lampdb";
+        // $port="";
+       $servername = "localhost";
+       $username = "id22241549_nachotg14";
+       $password = "Elmolino1414.";
+       $database = "id22241549_lampdb";
+       $port="3306";
 
 
 // Establecer conexión con la base de datos y otras variables necesarias
