@@ -1,9 +1,6 @@
 <?php
 // Datos de conexión a la base de datos
-$servername = "db";
-$username = "root";
-$password = "root_password";
-$database = "lampdb";
+include_once 'conexion.php';
 
 // Obtener datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -54,4 +51,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Cerrar conexión
     $conn = null;
 }
-?>

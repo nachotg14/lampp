@@ -2,16 +2,13 @@
 session_start();
 
 // Datos de conexión a la base de datos
-$servername = "db";
-$username = "root";
-$password = "root_password";
-$database = "lampdb";
+include_once 'conexion.php';
 
 // Establecer conexión con la base de datos
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 
@@ -69,12 +66,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($current_password == $user['password']) {
             // Verificar si la nueva contraseña cumple con los criterios de seguridad
             if ($new_password == $confirm_password) {
-                if (strlen($new_password) >= 8 && 
-                    preg_match('/[A-Z]/', $new_password) && 
-                    preg_match('/[a-z]/', $new_password) && 
-                    preg_match('/[0-9]/', $new_password) && 
-                    preg_match('/[^\w]/', $new_password)) {
-                    
+                if (
+                    strlen($new_password) >= 12 &&
+                    preg_match('/[A-Z]/', $new_password) &&
+                    preg_match('/[a-z]/', $new_password) &&
+                    preg_match('/[0-9]/', $new_password) &&
+                    preg_match('/[^\w]/', $new_password)
+                ) {
+
                     $new_password_hashed = hash('sha256', $new_password);
                     $actualizar_password = "UPDATE usuarios SET password = :password WHERE id = :id";
                     $stmt = $conn->prepare($actualizar_password);
@@ -106,6 +105,11 @@ $foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -114,10 +118,10 @@ $foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
             <a href="index.php" class="btn btn-light">Volver a la Página Principal</a>
             <h2>Perfil de Usuario</h2>
         </div>
-        <?php if ($success_message): ?>
+        <?php if ($success_message) : ?>
             <div class="alert alert-success"><?php echo $success_message; ?></div>
         <?php endif; ?>
-        <?php if (isset($password_message)): ?>
+        <?php if (isset($password_message)) : ?>
             <div class="alert alert-info"><?php echo $password_message; ?></div>
         <?php endif; ?>
         <form method="post" enctype="multipart/form-data">
@@ -145,16 +149,10 @@ $foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
         <button type="button" class="btn btn-warning mt-3" data-toggle="modal" data-target="#modalCambiarContrasena">Cambiar Contraseña</button>
     </div>
 
-    <!-- Modal Cambiar Contraseña -->
+    <!-- Modal -->
     <div class="modal fade" id="modalCambiarContrasena" tabindex="-1" aria-labelledby="modalCambiarContrasenaLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalCambiarContrasenaLabel">Cambiar Contraseña</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <form method="post">
                     <div class="modal-body">
                         <div class="form-group">
@@ -163,11 +161,13 @@ $foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
                         </div>
                         <div class="form-group">
                             <label for="new_password">Nueva Contraseña:</label>
-                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                            <input type="password" class="form-control" id="new_password" name="new_password" oninput="validarPassword()" required>
+                            <div id="passError" class="error"></div>
                         </div>
                         <div class="form-group">
                             <label for="confirm_password">Confirmar Nueva Contraseña:</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" oninput="confirmarCoincidencia()" required>
+                            <div id="confirmPassError" class="error"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -182,6 +182,7 @@ $foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>

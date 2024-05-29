@@ -1,10 +1,8 @@
 <?php
-include_once './funciones.php';
+include_once './Funciones.php';
+include_once './conexion.php';
+
 // Datos de conexión a la base de datos
-$servername = "db";
-$username = "root";
-$password = "root_password";
-$database = "lampdb";
 
 // Obtener datos del formulario
 $user = $_POST['username'];
