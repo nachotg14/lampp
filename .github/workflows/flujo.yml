@@ -67,7 +67,7 @@ jobs:
           server: files.000webhost.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./html/
+          local-dir: ./
           server-dir: /public_html/
           log-level: verbose
           exclude: |
