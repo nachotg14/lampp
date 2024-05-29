@@ -1,14 +1,12 @@
 <?php
-include_once './Funciones.php';
-include_once './conexion.php';
-
+include_once './funciones.php';
 // Datos de conexión a la base de datos
-
+include_once './conexion.php';
 // Obtener datos del formulario
-$user = $_POST['username'];
-$email = $_POST['email'];
-$pass = $_POST['password'];
-$dni = $_POST['dni'];
+$user = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+$email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+$pass = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+$dni = htmlspecialchars($_POST['dni'], ENT_QUOTES, 'UTF-8');
 
 // Convertir la contraseña a SHA-256
 $pass_sha256 = hash('sha256', $pass);

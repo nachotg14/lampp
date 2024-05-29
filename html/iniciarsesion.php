@@ -4,8 +4,9 @@ include_once 'conexion.php';
 
 // Obtener datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
+    $user = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+    $pass = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+
 
     try {
         // Establecer conexión con la base de datos
@@ -33,10 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Iniciar sesión (aquí puedes establecer tus variables de sesión, etc.)
             session_start();
             $_SESSION['username'] = $user;
-            
+
             // Crear una cookie de sesión con el ID del usuario
-            setcookie("cookie_id", $user_id, time() + (86400 * 30), "/"); // Cookie válida por 30 días
-            
+            setcookie("cookie_id", $user_id, [
+                'expires' => time() + (3600), // 1h
+                'path' => '/',
+                'domain' => '', // Puedes especificar tu dominio si es necesario
+                'secure' => true, // Asegúrate de usar HTTPS
+                'httponly' => true,
+                'samesite' => 'Strict'
+            ]);
             // Redirigir a la página de inicio o a cualquier otra página que desees
             header("Location: index.php");
             exit;
@@ -44,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Si las credenciales son incorrectas, muestra un mensaje de error
             echo "Usuario o contraseña incorrectos.";
         }
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 

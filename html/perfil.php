@@ -19,12 +19,12 @@ if (!isset($_COOKIE['cookie_id'])) {
 }
 
 // Obtener el ID del usuario desde la cookie
-$user_id = $_COOKIE['cookie_id'];
+$user_id = htmlspecialchars($_COOKIE['cookie_id'], ENT_QUOTES, 'UTF-8');
 
 // Consultar la información del usuario
 $obtener_datos = "SELECT * FROM usuarios WHERE id = :id";
 $stmt = $conn->prepare($obtener_datos);
-$stmt->bindParam(':id', $user_id);
+$stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -34,11 +34,11 @@ $success_message = "";
 // Procesar el formulario cuando se envía
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['correo_electronico'])) {
-        $user['correo_electronico'] = $_POST['correo_electronico'];
+        $user['correo_electronico'] = htmlspecialchars($_POST['correo_electronico'], ENT_QUOTES, 'UTF-8');
         $actualizar_correo = "UPDATE usuarios SET correo_electronico = :correo_electronico WHERE id = :id";
         $stmt = $conn->prepare($actualizar_correo);
-        $stmt->bindParam(':correo_electronico', $user['correo_electronico']);
-        $stmt->bindParam(':id', $user_id);
+        $stmt->bindParam(':correo_electronico', $user['correo_electronico'], PDO::PARAM_STR);
+        $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         $success_message = "Datos guardados correctamente.";
     }
@@ -47,11 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $carpeta_destino = 'uploads/';
         $archivo_destino = $carpeta_destino . basename($_FILES['foto_perfil']['name']);
         if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $archivo_destino)) {
-            $user['foto_perfil'] = $archivo_destino;
+            $user['foto_perfil'] = htmlspecialchars($archivo_destino, ENT_QUOTES, 'UTF-8');
             $actualizar_foto = "UPDATE usuarios SET foto_perfil = :foto_perfil WHERE id = :id";
             $stmt = $conn->prepare($actualizar_foto);
-            $stmt->bindParam(':foto_perfil', $archivo_destino);
-            $stmt->bindParam(':id', $user_id);
+            $stmt->bindParam(':foto_perfil', $user['foto_perfil'], PDO::PARAM_STR);
+            $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
             $success_message = "Datos guardados correctamente.";
         }
@@ -77,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $new_password_hashed = hash('sha256', $new_password);
                     $actualizar_password = "UPDATE usuarios SET password = :password WHERE id = :id";
                     $stmt = $conn->prepare($actualizar_password);
-                    $stmt->bindParam(':password', $new_password_hashed);
-                    $stmt->bindParam(':id', $user_id);
+                    $stmt->bindParam(':password', $new_password_hashed, PDO::PARAM_STR);
+                    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
                     $stmt->execute();
                     $success_message = "Contraseña actualizada correctamente.";
                 } else {
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Si no hay foto de perfil, usar la predeterminada
-$foto_perfil = $user['foto_perfil'] ? $user['foto_perfil'] : 'user-foto.png';
+$foto_perfil = $user['foto_perfil'] ? htmlspecialchars($user['foto_perfil'], ENT_QUOTES, 'UTF-8') : 'user-foto.png';
 ?>
 
 <!DOCTYPE html>
