@@ -1,5 +1,5 @@
 <?php
-include_once './funciones.php';
+include_once './funciones.php'; 
 // Datos de conexión a la base de datos
 include_once './conexion.php';
 // Obtener datos del formulario
