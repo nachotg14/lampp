@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { regex: /[a-z]/, message: "No cumple con minúsculas." },
             { regex: /[A-Z]/, message: "No cumple con mayúsculas." },
             { regex: /\d/, message: "No tiene números." },
-            { regex: /[@$!%*?&]/, message: "No tiene símbolos." },
+            { regex: /[@$!%*?&_.\/,]/, message: "No tiene símbolos." },
             { regex: /.{12,}/, message: "Debe tener al menos 12 caracteres." }
         ];
 
@@ -139,7 +139,7 @@ function validarPassword() {
     if (!/\d/.test(newPassword)) {
         errors.push("No tiene números.");
     }
-    if (!/[@$!%*?&]/.test(newPassword)) {
+    if (!/[@$!%*?&_.\/,]/.test(newPassword)) {
         errors.push("No tiene símbolos.");
     }
     if (newPassword.length < 12) {

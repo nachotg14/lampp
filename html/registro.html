@@ -49,13 +49,13 @@
                 var numberPattern = /[0-9]/;
                 var specialCharacterPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
                 
-                var isLengthValid = length >= 8;
+                var isLengthValid = length >= 12;
                 var hasNumber = numberPattern.test(password);
                 var hasSpecialCharacter = specialCharacterPattern.test(password);
                 
                 var message = '';
                 if (!isLengthValid) {
-                    message += 'La contraseña debe tener al menos 8 caracteres.<br>';
+                    message += 'La contraseña debe tener al menos 12 caracteres.<br>';
                 }
                 if (!hasNumber) {
                     message += 'La contraseña debe contener al menos un número.<br>';

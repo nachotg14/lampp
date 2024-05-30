@@ -33,7 +33,7 @@
                 if (empty($row['foto_perfil'])) {
                     echo '<img src="./user-foto.png" alt="Foto de perfil por defecto" style="width:50px; height:50px; border-radius:100%; margin-right:3px">';
                 } else {
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['foto_perfil']) . '" alt="Foto de perfil" style="width:50px; height:50px; border-radius:100%; margin-right:3px">';
+                    echo '<img src="' . htmlspecialchars($row['foto_perfil']) . '" alt="Foto de perfil" style="width:50px; height:50px; border-radius:100%; margin-right:3px">';
                 }
                 echo $row['user'];
                 echo '</button>';
@@ -66,7 +66,8 @@
                 if (empty($row['foto_perfil'])) {
                     echo '<img src="./user-foto.png" alt="Foto de perfil por defecto" width="50" height="50">';
                 } else {
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['foto_perfil']) . '" alt="Foto de perfil" width="50" height="50">';
+                    echo '<img src="' . htmlspecialchars($row['foto_perfil']) . '" alt="Foto de perfil" width="50" height="50">';
+
                 }
                 echo '<span>' . htmlspecialchars($row['nombre_usuario']) . '</span>';
                 echo '</div>';

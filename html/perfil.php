@@ -43,8 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $success_message = "Datos guardados correctamente.";
     }
 
-    if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] == UPLOAD_ERR_OK) {
+     if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] == UPLOAD_ERR_OK) {
         $carpeta_destino = 'uploads/';
+        
+        // Verificar si la carpeta de destino existe, si no, crearla
+        if (!is_dir($carpeta_destino)) {
+            mkdir($carpeta_destino, 0755, true);
+        }
+        
         $archivo_destino = $carpeta_destino . basename($_FILES['foto_perfil']['name']);
         if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $archivo_destino)) {
             $user['foto_perfil'] = htmlspecialchars($archivo_destino, ENT_QUOTES, 'UTF-8');
@@ -54,6 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
             $success_message = "Datos guardados correctamente.";
+        } else {
+            echo "Error al subir el archivo.";
         }
     }
 
