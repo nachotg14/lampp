@@ -59,7 +59,7 @@ jobs:
 
       # Agregar comando para listar el contenido del directorio local antes del deploy
       - name: List local files before deploy
-        run: ls -R ./
+        run: ls -R ./html/
 
       - name: Install FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.2.0
@@ -67,7 +67,7 @@ jobs:
           server: files.000webhost.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
+          local-dir: ./html/
           server-dir: /public_html/
           log-level: verbose
           exclude: |
@@ -81,4 +81,4 @@ jobs:
             mirror --reverse --delete --exclude .htaccess ./ /public_html/" -p 22
       # Agregar comando para listar el contenido del directorio local después del deploy
       - name: List local files after deploy
-        run: ls -R ./
+        run: ls -R ./html/
